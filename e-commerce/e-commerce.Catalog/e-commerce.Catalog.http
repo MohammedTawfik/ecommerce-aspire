@@ -1,0 +1,6 @@
+@e_commerce.Catalog_HostAddress = https://localhost:7142/products
+
+GET {{e_commerce.Catalog_HostAddress}}/
+Accept: application/json
+
+###

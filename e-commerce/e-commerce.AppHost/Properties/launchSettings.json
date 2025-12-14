@@ -4,11 +4,12 @@
     "https": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": true,
+      "launchBrowser": false,
       "applicationUrl": "https://localhost:17101;http://localhost:15110",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DOTNET_ENVIRONMENT": "Development",
+        "DOTNET_ASPIRE_CONTAINER_RUNTIME": "docker",
         "ASPIRE_DASHBOARD_OTLP_ENDPOINT_URL": "https://localhost:21064",
         "ASPIRE_DASHBOARD_MCP_ENDPOINT_URL": "https://localhost:23270",
         "ASPIRE_RESOURCE_SERVICE_ENDPOINT_URL": "https://localhost:22166"
@@ -17,11 +18,12 @@
     "http": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": true,
+      "launchBrowser": false,
       "applicationUrl": "http://localhost:15110",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DOTNET_ENVIRONMENT": "Development",
+        "DOTNET_ASPIRE_CONTAINER_RUNTIME": "docker",
         "ASPIRE_DASHBOARD_OTLP_ENDPOINT_URL": "http://localhost:19188",
         "ASPIRE_DASHBOARD_MCP_ENDPOINT_URL": "http://localhost:18215",
         "ASPIRE_RESOURCE_SERVICE_ENDPOINT_URL": "http://localhost:20079"

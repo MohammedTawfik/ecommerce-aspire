@@ -4,5 +4,7 @@
     <Project Path="e-commerce.ServiceDefaults/e-commerce.ServiceDefaults.csproj" />
   </Folder>
   <Folder Name="/frontend/" />
-  <Folder Name="/services/" />
+  <Folder Name="/services/">
+    <Project Path="e-commerce.Catalog/e-commerce.Catalog.csproj" />
+  </Folder>
 </Solution>
