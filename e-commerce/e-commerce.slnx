@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/aspire/">
+    <Project Path="e-commerce.AppHost/e-commerce.AppHost.csproj" />
+    <Project Path="e-commerce.ServiceDefaults/e-commerce.ServiceDefaults.csproj" />
+  </Folder>
+  <Folder Name="/frontend/" />
+  <Folder Name="/services/" />
+</Solution>
