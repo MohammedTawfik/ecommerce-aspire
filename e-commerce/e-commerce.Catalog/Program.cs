@@ -22,6 +22,5 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 app.UseMigration();
-app.UseHttpsRedirection();
 app.MapProductsEndpoints();
 app.Run();

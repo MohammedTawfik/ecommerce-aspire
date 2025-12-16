@@ -20,12 +20,13 @@ var redis = builder.AddRedis("caching-redis")
     .WithLifetime(ContainerLifetime.Persistent);
 
 
-builder.AddProject<Projects.e_commerce_Catalog>("e-commerce-catalog")
+var catalog=builder.AddProject<Projects.e_commerce_Catalog>("e-commerce-catalog")
     .WithReference(catalogDb)
     .WaitFor(catalogDb);
 
 builder.AddProject<Projects.e_commerce_Basket>("e-commerce-basket")
     .WithReference(redis)
+    .WithReference(catalog)
     .WaitFor(redis);
 
 builder.Build().Run();

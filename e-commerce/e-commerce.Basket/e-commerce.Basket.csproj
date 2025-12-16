@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\e-commerce.Catalog\Models\Product.cs" Link="Models\Product.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Aspire.StackExchange.Redis.DistributedCaching" Version="13.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
   </ItemGroup>
