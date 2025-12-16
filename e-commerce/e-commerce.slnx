@@ -5,6 +5,7 @@
   </Folder>
   <Folder Name="/frontend/" />
   <Folder Name="/services/">
+    <Project Path="e-commerce.Basket/e-commerce.Basket.csproj" />
     <Project Path="e-commerce.Catalog/e-commerce.Catalog.csproj" />
   </Folder>
 </Solution>
