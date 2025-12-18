@@ -19,14 +19,23 @@ var redis = builder.AddRedis("caching-redis")
     .WithDataVolume("e-commerce-redis-volume")
     .WithLifetime(ContainerLifetime.Persistent);
 
+var rabbitMq = builder.AddRabbitMQ("rabbitmq")
+    .WithManagementPlugin()
+    .WithDataVolume("e-commerce-rabbitmq-volume")
+    .WithLifetime(ContainerLifetime.Persistent);
+
 
 var catalog=builder.AddProject<Projects.e_commerce_Catalog>("e-commerce-catalog")
     .WithReference(catalogDb)
-    .WaitFor(catalogDb);
+    .WithReference(rabbitMq)
+    .WaitFor(catalogDb)
+    .WaitFor(rabbitMq);
 
 builder.AddProject<Projects.e_commerce_Basket>("e-commerce-basket")
     .WithReference(redis)
     .WithReference(catalog)
-    .WaitFor(redis);
+    .WithReference(rabbitMq)
+    .WaitFor(redis)
+    .WaitFor(rabbitMq);
 
 builder.Build().Run();

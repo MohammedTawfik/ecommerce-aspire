@@ -1,6 +1,9 @@
-﻿namespace e_commerce.Catalog.Services
+﻿using Common.Events;
+using MassTransit;
+
+namespace e_commerce.Catalog.Services
 {
-    public class ProductService(ProductsDBContext productsDBContext)
+    public class ProductService(ProductsDBContext productsDBContext, IBus bus)
     {
         public async Task CreateProductAsync(Product product)
         {
@@ -26,13 +29,17 @@
             {
                 return null;
             }
-            if (dbProduct is not null)
+
+            if(product.Price != dbProduct.Price)
             {
-                dbProduct.Name = product.Name;
-                dbProduct.Description = product.Description;
-                dbProduct.Price = product.Price;
-                dbProduct.ImageUrl = product.ImageUrl;
+                var integrationEvent = new ProductPriceUpdates(dbProduct.Id, product.Name, product.Description, product.Price, product.ImageUrl);
+                await bus.Publish(integrationEvent);
             }
+
+            dbProduct.Name = product.Name;
+            dbProduct.Description = product.Description;
+            dbProduct.Price = product.Price;
+            dbProduct.ImageUrl = product.ImageUrl;
             productsDBContext.Products.Update(dbProduct);
             await productsDBContext.SaveChangesAsync();
             return dbProduct;
@@ -42,7 +49,7 @@
         {
             var product = await productsDBContext.Products.FirstOrDefaultAsync(p => p.Id == id);
             if (product is null)
-            {  return null; }
+            { return null; }
             productsDBContext.Products.Remove(product);
             await productsDBContext.SaveChangesAsync();
             return product;

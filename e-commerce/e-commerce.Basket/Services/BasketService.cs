@@ -28,5 +28,17 @@ namespace e_commerce.Basket.Services
         {
             await cache.RemoveAsync(userName);
         }
+
+        public async Task UpdateBasketItemProductPrices(int productId, decimal price)
+        {
+            var basket = await GetUserShoppingCart("dummyuser");
+
+            var item = basket!.Items.FirstOrDefault(x => x.ProductId == productId);
+            if (item is not null)
+            {
+                item.Price = price;
+                await cache.SetStringAsync(basket.Username, JsonSerializer.Serialize(basket));
+            }
+        }
     }
 }
