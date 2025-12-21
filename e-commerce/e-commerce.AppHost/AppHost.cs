@@ -8,25 +8,35 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 var postgress = builder.AddPostgres("db-postgres")
     .WithImagePullPolicy(ImagePullPolicy.Missing)
-    .WithPgAdmin()
-    .WithDataVolume("e-commerce-database-volume");
+    .WithPgAdmin();
+    //.WithDataVolume("e-commerce-database-volume");
+
+
 
 var catalogDb = postgress.AddDatabase("catalog-db");
 
 var redis = builder.AddRedis("caching-redis")
-    .WithRedisInsight()
-    .WithDataVolume("e-commerce-redis-volume");
+    .WithRedisInsight();
+    //.WithDataVolume("e-commerce-redis-volume");
 
 var rabbitMq = builder.AddRabbitMQ("rabbitmq")
-    .WithManagementPlugin()
-    .WithDataVolume("e-commerce-rabbitmq-volume");
+    .WithManagementPlugin();
+//.WithDataVolume("e-commerce-rabbitmq-volume");
 
 
-var keyCloack = builder.AddKeycloak("keycloack", 6001)
-    .WithDataVolume("ecommerce-keycloak-data")
+var keyCloack = builder.AddKeycloak("keycloack")
+    //.WithDataVolume("ecommerce-keycloak-data")
     .WithEnvironment("KC_HTTP_ENABLED", "true")
-    .WithEnvironment("KC_HOSTNAME_STRICT", "false")
-    .WithExternalHttpEndpoints();
+    .WithEnvironment("KC_HOSTNAME_STRICT", "false");
+
+if (builder.ExecutionContext.IsRunMode)
+{
+    //Data volumes donot work on Azure Containers App so only add when running local development environment
+    postgress.WithDataVolume("e-commerce-database-volume");
+    redis.WithDataVolume("e-commerce-redis-volume");
+    rabbitMq.WithDataVolume("e-commerce-rabbitmq-volume");
+    keyCloack.WithDataVolume("ecommerce-keycloak-data");
+}
 
 
 var catalog=builder.AddProject<Projects.e_commerce_Catalog>("e-commerce-catalog")
