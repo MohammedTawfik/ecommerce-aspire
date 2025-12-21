@@ -26,6 +26,37 @@ builder.Services.ConfigureHttpClientDefaults(options =>
         });
 });
 
+builder.Services.AddAuthentication()
+    .AddKeycloakJwtBearer(
+                            serviceName: "keycloack", 
+                            realm: "eshop", 
+                            configureOptions: options => 
+                            {
+                                options.RequireHttpsMetadata = false;
+                                options.Audience = "account";
+                                
+                                // Add logging for debugging
+                                options.Events = new Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents
+                                {
+                                    OnAuthenticationFailed = context =>
+                                    {
+                                        Console.WriteLine($"Authentication failed: {context.Exception.Message}");
+                                        return Task.CompletedTask;
+                                    },
+                                    OnTokenValidated = context =>
+                                    {
+                                        Console.WriteLine($"Token validated for user: {context.Principal?.Identity?.Name}");
+                                        return Task.CompletedTask;
+                                    },
+                                    OnChallenge = context =>
+                                    {
+                                        Console.WriteLine($"OnChallenge error: {context.Error}, {context.ErrorDescription}");
+                                        return Task.CompletedTask;
+                                    }
+                                };
+                            });
+builder.Services.AddAuthorization();
+
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -34,9 +65,6 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-app.MapDefaultEndpoints();
-app.MapBasketEndpoints();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -44,5 +72,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapDefaultEndpoints();
+app.MapBasketEndpoints();
 
 app.Run();

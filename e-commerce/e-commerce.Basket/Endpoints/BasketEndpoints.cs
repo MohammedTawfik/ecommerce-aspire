@@ -19,7 +19,8 @@ namespace e_commerce.Basket.Endpoints
             })
                 .WithName("GetUserBasket")
                 .Produces(StatusCodes.Status404NotFound)
-                .Produces<ShoppingCart>(StatusCodes.Status200OK);
+                .Produces<ShoppingCart>(StatusCodes.Status200OK)
+                .RequireAuthorization();
 
             group.MapPost("/", async (ShoppingCart cart, BasketService service) => 
             {
@@ -27,7 +28,8 @@ namespace e_commerce.Basket.Endpoints
                 return Results.NoContent();
             })
                 .WithName("UpdateBasket")
-                .Produces(StatusCodes.Status204NoContent);
+                .Produces(StatusCodes.Status204NoContent)
+                .RequireAuthorization();
 
             group.MapDelete("/{userName}", async (string userName, BasketService service) =>
             {
@@ -35,7 +37,8 @@ namespace e_commerce.Basket.Endpoints
                 return Results.NoContent();
             })
                 .WithName("DeleteBasket")
-                .Produces(StatusCodes.Status204NoContent);
+                .Produces(StatusCodes.Status204NoContent)
+                .RequireAuthorization();
         }
     }
 }
