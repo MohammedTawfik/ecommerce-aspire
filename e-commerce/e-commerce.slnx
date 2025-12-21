@@ -3,7 +3,9 @@
     <Project Path="e-commerce.AppHost/e-commerce.AppHost.csproj" />
     <Project Path="e-commerce.ServiceDefaults/e-commerce.ServiceDefaults.csproj" />
   </Folder>
-  <Folder Name="/frontend/" />
+  <Folder Name="/frontend/">
+    <Project Path="e-commerce.WebApp/e-commerce.WebApp.csproj" />
+  </Folder>
   <Folder Name="/services/">
     <Project Path="Common/Common.csproj" Id="eaaae160-6509-433e-aec3-959bc124c82d" />
     <Project Path="e-commerce.Basket/e-commerce.Basket.csproj" />

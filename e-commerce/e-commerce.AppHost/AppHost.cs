@@ -35,7 +35,7 @@ var catalog=builder.AddProject<Projects.e_commerce_Catalog>("e-commerce-catalog"
     .WaitFor(catalogDb)
     .WaitFor(rabbitMq);
 
-builder.AddProject<Projects.e_commerce_Basket>("e-commerce-basket")
+var basket = builder.AddProject<Projects.e_commerce_Basket>("e-commerce-basket")
     .WithReference(redis)
     .WithReference(catalog)
     .WithReference(rabbitMq)
@@ -43,5 +43,13 @@ builder.AddProject<Projects.e_commerce_Basket>("e-commerce-basket")
     .WaitFor(redis)
     .WaitFor(rabbitMq)
     .WaitFor(keyCloack);
+
+builder.AddProject<Projects.e_commerce_WebApp>("e-commerce-webapp")
+    .WithExternalHttpEndpoints()
+    .WithReference(catalog)
+    .WithReference(basket)
+    .WithReference(redis)
+    .WaitFor(catalog)
+    .WaitFor(basket);
 
 builder.Build().Run();

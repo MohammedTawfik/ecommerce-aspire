@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\e-commerce.Basket\e-commerce.Basket.csproj" />
     <ProjectReference Include="..\e-commerce.Catalog\e-commerce.Catalog.csproj" />
+    <ProjectReference Include="..\e-commerce.WebApp\e-commerce.WebApp.csproj" />
   </ItemGroup>
 
 </Project>
