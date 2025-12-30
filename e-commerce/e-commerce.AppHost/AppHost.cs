@@ -29,6 +29,11 @@ var keyCloack = builder.AddKeycloak("keycloack")
     .WithEnvironment("KC_HTTP_ENABLED", "true")
     .WithEnvironment("KC_HOSTNAME_STRICT", "false");
 
+var ollama = builder.AddOllama("ollama", 11434)
+    .WithOpenWebUI();
+
+var llamaModel = ollama.AddModel("llama3.2");
+
 if (builder.ExecutionContext.IsRunMode)
 {
     //Data volumes donot work on Azure Containers App so only add when running local development environment
@@ -36,14 +41,17 @@ if (builder.ExecutionContext.IsRunMode)
     redis.WithDataVolume("e-commerce-redis-volume");
     rabbitMq.WithDataVolume("e-commerce-rabbitmq-volume");
     keyCloack.WithDataVolume("ecommerce-keycloak-data");
+    ollama.WithDataVolume("e-commerce-ollama-volume");
 }
 
 
 var catalog=builder.AddProject<Projects.e_commerce_Catalog>("e-commerce-catalog")
     .WithReference(catalogDb)
     .WithReference(rabbitMq)
+    .WithReference(llamaModel)
     .WaitFor(catalogDb)
-    .WaitFor(rabbitMq);
+    .WaitFor(rabbitMq)
+    .WaitFor(llamaModel);
 
 var basket = builder.AddProject<Projects.e_commerce_Basket>("e-commerce-basket")
     .WithReference(redis)

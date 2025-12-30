@@ -140,3 +140,4 @@ Write-Host "□ User 'testuser' exists with password 'testuser123'" -ForegroundC
 Write-Host "□ Password is set as permanent (not temporary)" -ForegroundColor White
 Write-Host ""
 
+

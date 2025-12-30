@@ -58,7 +58,15 @@ namespace e_commerce.Catalog.Endpoints
             })
                 .WithName("DeleteProduct")
                 .Produces(StatusCodes.Status404NotFound)
-                .Produces(StatusCodes.Status204NoContent); ;
+                .Produces(StatusCodes.Status204NoContent);
+
+            group.MapGet("/support/{query}", async (string query, ProductsAIService service) => 
+            {
+                var response = await service.SupportAsync(query);
+                return Results.Ok(response);
+            })
+                .WithName("Support")
+                .Produces<string>(StatusCodes.Status200OK);
 
         }
     }

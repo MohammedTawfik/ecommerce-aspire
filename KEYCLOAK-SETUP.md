@@ -231,3 +231,4 @@ builder.AddProject<Projects.e_commerce_Basket>("e-commerce-basket")
 - Store client secrets securely
 - Use proper user management
 
+
